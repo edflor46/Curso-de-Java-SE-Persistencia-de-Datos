@@ -445,3 +445,174 @@ public class MensajesDAO {
     }
    </code>
 </pre>
+
+# Proyecto Gatitos Java
+
+## Creación del proyecto y APIKEY
+
+**Clase Gatos**
+<pre>
+    <code>
+    
+package com.mycompany.gatos_app;
+
+/**
+ *
+ * @author edflo
+ */
+public class Gatos {
+    int id;
+    String url;
+    String apiKey;
+    String image;
+
+    
+    //GET Y SET   
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getApiKey() {
+        return apiKey;
+    }
+
+    public void setApiKey(String apiKey) {
+        this.apiKey = apiKey;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+    
+    
+}
+
+    </code>
+</pre>
+
+**Clase Inicio**
+<pre>
+    <code>
+    package com.mycompany.gatos_app;
+
+import javax.swing.JOptionPane;
+
+/**
+ *
+ * @author edflo
+ */
+public class Inicio {
+
+    public static void main(String[] args) {
+        int opcionMenu = -1;
+        String[] botones = {"1. Ver gatos", "Salir"};
+
+        do {
+            //Menu principal
+            String opcion = (String) JOptionPane.showInputDialog(null, "Gatitos java", "Menu principal",
+                    JOptionPane.INFORMATION_MESSAGE, null, botones, botones[0]);
+
+            //Validar opcion por el usuario
+            for (int i = 0; i < botones.length; i++) {
+                if (opcion.equals(botones[i])) {
+                    opcionMenu = i;
+
+                }
+            }
+
+            switch (opcionMenu) {
+                case 0:
+                    break;
+
+                default:
+                    break;
+            }
+        } while (opcionMenu != 1);
+    }
+}
+
+    </code>
+</pre>
+
+![gatos](https://res.cloudinary.com/dvhl6xkqf/image/upload/v1626708438/Academia-Java.-CDMX/persistencia/Captura_de_pantalla_180_h4acgd.png)
+
+## Listado APIs Publicas
+
+**Clase GatosService**
+<pre>
+    <code>
+    
+package com.mycompany.gatos_app;
+
+import com.google.gson.Gson;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
+import java.awt.Image;
+import java.io.IOException;
+import java.net.URL;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+
+/**
+ *
+ * @author edflo
+ */
+public class GatosService {
+
+    public static void verGatos() throws IOException {
+
+        //Traer los datos de la api
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder().url("https://api.thecatapi.com/v1/images/search").get().build();
+        Response response = client.newCall(request).execute();
+        
+        String elJson = response.body().string();
+        //Cortar corchetes
+        elJson = elJson.substring(1, elJson.length());
+        elJson = elJson.substring(0, elJson.length()-1);
+        
+        //Crear objeto  de la clsae Gson
+        Gson gson = new Gson();
+        Gatos gatos = gson.fromJson(elJson, Gatos.class);
+        
+        //Redimensionar
+        Image image = null;
+        try {
+            URL url = new URL(gatos.getUrl());
+            image = ImageIO.read(url);
+            
+            ImageIcon fondoGato  = new ImageIcon(image);
+            
+            if (fondoGato.getIconWidth() > 800) {
+                //Redimensionar
+                Image fondo = fondoGato.getImage();
+                Image modificada = fondo.getScaledInstance(800, 800, java.awt.Image.SCALE_SMOOTH);
+                fondoGato = new ImageIcon(modificada);
+            }
+        } catch (Exception e) {
+            
+            System.out.println(e);
+            
+        }
+    }
+}
+
+    </code>
+</pre>
