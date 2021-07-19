@@ -400,3 +400,48 @@ public class MensajesDAO {
 **Eliminar mensaje**
 
 ![borrado](https://res.cloudinary.com/dvhl6xkqf/image/upload/v1626704011/Academia-Java.-CDMX/persistencia/Captura_de_pantalla_179_ojwo5p.png)
+
+## CRUD: Actualizar datos
+**Clase DAO**
+<pre>
+   <code>
+      public static void actualizarMensajeDB(Mensajes mensaje) {
+
+        Conexion dbConnect = new Conexion();
+
+        try (Connection conexion = dbConnect.get_connection()) {
+            PreparedStatement ps = null;
+
+            try {
+                String query = "UPDATE mensajes SET mensaje = ? WHERE id_mensaje = ?";
+                ps = conexion.prepareStatement(query);
+                ps.setString(1, mensaje.getMensaje());
+                ps.setInt(2, mensaje.getId_mensaje());
+                ps.executeUpdate();
+                System.out.println("El mensaje se actualizo correctamente");
+            } catch (SQLException e) {
+                System.out.println(e);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
+   </code>
+</pre>
+
+**Clase MensajesService**
+<pre>
+   <code>
+        public static void editarMensaje(){
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Escribe tu nuevo mensaje");
+        String mensaje = sc.nextLine();
+        int id_mensaje = sc.nextInt();
+        
+        Mensajes actualizacion = new Mensajes();
+        actualizacion.setId_mensaje(id_mensaje);
+        actualizacion.setMensaje(mensaje);
+        MensajesDAO.actualizarMensajeDB(actualizacion);
+    }
+   </code>
+</pre>

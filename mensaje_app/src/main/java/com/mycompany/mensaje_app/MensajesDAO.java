@@ -65,7 +65,7 @@ public class MensajesDAO {
 
         try (Connection conexion = dbConnect.get_connection()) {
             PreparedStatement ps = null;
-            
+
             try {
                 String query = "DELETE FROM mensajes WHERE id_mensaje = ?";
                 ps = conexion.prepareStatement(query);
@@ -75,12 +75,31 @@ public class MensajesDAO {
             } catch (SQLException e) {
                 System.out.println(e);
             }
-        } catch (SQLException e) { 
+        } catch (SQLException e) {
             System.out.println(e);
         }
     }
 
     public static void actualizarMensajeDB(Mensajes mensaje) {
 
+        Conexion dbConnect = new Conexion();
+
+        try (Connection conexion = dbConnect.get_connection()) {
+            PreparedStatement ps = null;
+
+            try {
+                String query = "UPDATE mensajes SET mensaje = ? WHERE id_mensaje = ?";
+                ps = conexion.prepareStatement(query);
+                ps.setString(1, mensaje.getMensaje());
+                ps.setInt(2, mensaje.getId_mensaje());
+                ps.executeUpdate();
+                System.out.println("El mensaje se actualizo correctamente");
+            } catch (SQLException e) {
+                System.out.println(e);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
     }
+
 }
