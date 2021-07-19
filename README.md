@@ -357,3 +357,46 @@ public class MensajesDAO {
 **Listado de mensajes de la base de datos**
 
 ![get](https://res.cloudinary.com/dvhl6xkqf/image/upload/v1626703160/Academia-Java.-CDMX/persistencia/Captura_de_pantalla_178_rjgul9.png)
+
+## CRUD: Elmininación de datos
+
+**Clase MensajesDAO**
+<pre>
+    <code>
+        public static void borrarMensajeDB(int id_mensaje) {
+
+        Conexion dbConnect = new Conexion();
+
+        try (Connection conexion = dbConnect.get_connection()) {
+            PreparedStatement ps = null;
+            
+            try {
+                String query = "DELETE FROM mensajes WHERE id = ?";
+                ps = conexion.prepareStatement(query);
+                ps.setInt(1, id_mensaje);
+                ps.executeUpdate();
+                System.out.println("El mensaje fue borrado");
+            } catch (SQLException e) {
+                System.out.println(e);
+            }
+        } catch (SQLException e) { 
+            System.out.println(e);
+        }
+    }
+    </code>
+</pre>
+
+**Clase MensajesService**
+<pre>
+    <code>
+        public static void borrarMensaje(){
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Indica el mensaje a borrar");
+        int id_mensaje = sc.nextInt();
+        MensajesDAO.borrarMensajeDB(id_mensaje);
+    }
+    </code>
+</pre>
+**Eliminar mensaje**
+
+![borrado](https://res.cloudinary.com/dvhl6xkqf/image/upload/v1626704011/Academia-Java.-CDMX/persistencia/Captura_de_pantalla_179_ojwo5p.png)

@@ -45,8 +45,8 @@ public class MensajesDAO {
             String query = "SELECT * FROM mensajes";
             ps = conexion.prepareStatement(query);
             rs = ps.executeQuery();
-            
-            while(rs.next()){
+
+            while (rs.next()) {
                 System.out.println("ID: " + rs.getInt("id_mensaje"));
                 System.out.println("Mensaje: " + rs.getString("mensaje"));
                 System.out.println("Autor: " + rs.getString("autor_mensaje"));
@@ -61,6 +61,23 @@ public class MensajesDAO {
 
     public static void borrarMensajeDB(int id_mensaje) {
 
+        Conexion dbConnect = new Conexion();
+
+        try (Connection conexion = dbConnect.get_connection()) {
+            PreparedStatement ps = null;
+            
+            try {
+                String query = "DELETE FROM mensajes WHERE id_mensaje = ?";
+                ps = conexion.prepareStatement(query);
+                ps.setInt(1, id_mensaje);
+                ps.executeUpdate();
+                System.out.println("El mensaje fue borrado");
+            } catch (SQLException e) {
+                System.out.println(e);
+            }
+        } catch (SQLException e) { 
+            System.out.println(e);
+        }
     }
 
     public static void actualizarMensajeDB(Mensajes mensaje) {
