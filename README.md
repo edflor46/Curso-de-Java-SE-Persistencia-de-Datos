@@ -606,6 +606,36 @@ public class GatosService {
                 Image modificada = fondo.getScaledInstance(800, 800, java.awt.Image.SCALE_SMOOTH);
                 fondoGato = new ImageIcon(modificada);
             }
+
+            String menu = "Opciones: "
+                    + "1. Ver otra imagen\n"
+                    + "2. Marcar gato como favorito\n"
+                    + "3. Volver al menu\n";
+
+            String[] botones = {"1. Ver otra imagen", "Favorito", "Volver"};
+            String id_gato = gatos.getId();
+            String opcion = (String) JOptionPane.showInputDialog(null, menu, id_gato, JOptionPane.INFORMATION_MESSAGE,
+                    fondoGato, botones, botones[0]);
+
+            int selecccion = -1;
+            for (int i = 0; i < botones.length; i++) {
+                if (opcion.equals(botones[i])) {
+                    selecccion = i;
+                    GatosService.verGatos();
+                }
+            }
+
+            switch (selecccion) {
+                case 0:
+                    verGatos();
+                    break;
+
+                case 1:
+                    favoritoGato(gatos);
+                    break;
+                default:
+                    break;
+            }
         } catch (Exception e) {
             
             System.out.println(e);
@@ -616,3 +646,5 @@ public class GatosService {
 
     </code>
 </pre>
+
+![imagen](https://res.cloudinary.com/dvhl6xkqf/image/upload/v1626710515/Academia-Java.-CDMX/persistencia/Captura_de_pantalla_181_ln8fk0.png)
