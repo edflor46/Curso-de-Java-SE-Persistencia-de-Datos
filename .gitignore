@@ -1,6 +1,6 @@
-mensaje_app/pom.xml
+mensaje_app/*.xml
 mensaje_app/src/test/
-/mensaje_app/target/
-/gatos_app/target/
-/gatos_app/src/test/
-/gatos_app/pom.xml
+mensaje_app/target/
+gatos_app/*.xml
+gatos_app/target/
+gatos_app/src/test/
