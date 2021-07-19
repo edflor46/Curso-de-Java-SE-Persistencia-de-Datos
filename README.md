@@ -308,7 +308,52 @@ public class MensajesDAO {
 </pre>
 
 **Aplicación Java**
+
 ![aplicacion](https://res.cloudinary.com/dvhl6xkqf/image/upload/v1626702306/Academia-Java.-CDMX/persistencia/Captura_de_pantalla_176_ugj0sa.png)
 
 **phpMyAdmin**
+
 ![phpMyAdmin](https://res.cloudinary.com/dvhl6xkqf/image/upload/v1626702306/Academia-Java.-CDMX/persistencia/Captura_de_pantalla_177_t5gtgq.png)
+
+## CRUD: lectura de datos
+
+**Clase MensajesDAO**
+<pre>
+    <code>
+     public static void leerMensajes() {
+        Conexion dbConnect = new Conexion();
+
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try (Connection conexion = dbConnect.get_connection()) {
+            String query = "SELECT * FROM mensajes";
+            ps = conexion.prepareStatement(query);
+            rs = ps.executeQuery();
+            
+            while(rs.next()){
+                System.out.println("ID: " + rs.getInt("id_mensaje"));
+                System.out.println("Mensaje: " + rs.getString("mensaje"));
+                System.out.println("Autor: " + rs.getString("autor_mensaje"));
+                System.out.println("Fecha" + rs.getString("fecha_mensaje"));
+                System.out.println("");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al recuperar los mensajes");
+            System.out.println(e);
+        }
+    }
+    </code>
+</pre>
+
+**Clase MensajesService**
+<pre>
+    <code>
+        public static void listarMensajes(){
+        MensajesDAO.leerMensajes();
+    }
+    </code>
+</pre>
+
+**Listado de mensajes de la base de datos**
+
+![get](https://res.cloudinary.com/dvhl6xkqf/image/upload/v1626703160/Academia-Java.-CDMX/persistencia/Captura_de_pantalla_178_rjgul9.png)
