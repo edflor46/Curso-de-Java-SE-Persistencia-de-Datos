@@ -16,3 +16,5 @@ PRIMARY KEY(id_mensaje)
 );
     </code>
 </pre>
+
+![data_base](https://res.cloudinary.com/dvhl6xkqf/image/upload/v1626677271/Academia-Java.-CDMX/persistencia/database_nsgblz.png)
